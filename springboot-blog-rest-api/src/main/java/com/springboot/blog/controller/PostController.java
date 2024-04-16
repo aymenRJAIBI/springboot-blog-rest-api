@@ -28,12 +28,11 @@ public class PostController {
 
     @GetMapping
     public PostResponse getAllPosts(
-            @RequestParam(value= "pageNo",defaultValue= "0", required = false) int pageNo,
-            @RequestParam(value= "pageSize",defaultValue= "10", required = false) int pageSize,
-            @RequestParam(value= "sortBy",defaultValue= "id", required = false) String sortBy)
-    {
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy) {
 
-       return postService.getAllPosts(pageNo, pageSize, sortBy);
+        return postService.getAllPosts(pageNo, pageSize, sortBy);
 
 
     }
@@ -44,13 +43,21 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@Valid  @RequestBody PostDto postDto, @PathVariable(name = "id") long id) {
-        return ResponseEntity.ok(postService.updatePost(id,postDto));
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") long id) {
+        return ResponseEntity.ok(postService.updatePost(id, postDto));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id) {
         postService.deletePost(id);
         return ResponseEntity.ok("Post deleted with success ! ");
+    }
+
+    @GetMapping("category/{id}")
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable(name="id") Long categoryId) {
+        List<PostDto> result = postService.getPostsByCategory(categoryId);
+
+        return ResponseEntity.ok(result);
     }
 
 }
